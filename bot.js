@@ -196,41 +196,7 @@ async function gotmessage(msg) {
         }
 
     }
-    if (msg.content.substring(0, 7) === '+locate') {
-        let search = msg.content.substring(8);
-        var url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?`;
-        var params = {
-            input: `${search}`,
-            inputtype: 'textquery',
-            fields: 'business_status,formatted_address,geometry,icon,name,photos,place_id',
-            APIkey: `${process.env.MAPKEY}`
-        };
-        Object.keys(params).forEach(function(key) {
-            url += "&" + key + "=" + params[key];
-        });
-        let response = await fetch(url);
-        let json = await response.json();
-        try {
-            msg.channel.send('success');
-            console.log(json);
-        } catch (err) {
-            console.log(err);
-        }
-    }
 }
-
-client.on('guildMemberAdd', async member => {
-    const channel = member.guild.channels.cache.find(ch => ch.name === 'verify');
-    if (!channel) return;
-    const canvas = Canvas.createCanvas(1400, 500);
-    const ctx = canvas.getContext('2d');
-    const background = await Canvas.loadImage('https://i1.wp.com/doblu.com/wp-content/uploads/2013/08/greatgatsby3006.jpg?fit=1920%2C1080');
-    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-    const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
-    channel.send(`
-                Welcome to the server,
-                $ { member }!`, attachment);
-});
 
 function removeChars(str) {
     var temp = "",
